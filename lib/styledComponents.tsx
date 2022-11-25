@@ -1,7 +1,10 @@
+"use client";
+
 import { useState } from "react";
+import { useServerInsertedHTML } from "next/navigation";
 import { ServerStyleSheet, StyleSheetManager } from "styled-components";
 
-export function useStyledComponentsRegistry() {
+function useStyledComponentsRegistry() {
   const [styledComponentsStyleSheet] = useState(() => new ServerStyleSheet());
 
   const styledComponentsFlushEffect = () => {
@@ -19,4 +22,14 @@ export function useStyledComponentsRegistry() {
   );
 
   return [StyledComponentsRegistry, styledComponentsFlushEffect] as const;
+}
+
+export default function StyledComponentsRoot({ children }: { children: React.ReactNode }) {
+  const [StyledComponentsRegistry, styledComponentsFlushEffect] = useStyledComponentsRegistry();
+
+  useServerInsertedHTML(() => {
+    return <>{styledComponentsFlushEffect()}</>;
+  });
+
+  return <StyledComponentsRegistry>{children}</StyledComponentsRegistry>;
 }

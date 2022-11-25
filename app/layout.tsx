@@ -1,6 +1,6 @@
-import EmotionRoot from "../lib/wrappers/emotion";
-import StitchesRoot from "../lib/wrappers/stitches";
-import StyledComponentsRoot from "../lib/wrappers/styledComponents";
+import EmotionRoot from "../lib/emotion";
+import StitchesRoot from "../lib/stitches";
+import StyledComponentsRoot from "../lib/styledComponents";
 
 const Wrapper = EmotionRoot;
 
