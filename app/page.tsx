@@ -2,6 +2,7 @@
 import { PostType } from "@prisma/client";
 import { Button } from "../components/Button";
 import { ClientComponent } from "./client";
+import { Graph } from "./graph";
 
 // const prisma = new PrismaClient();
 
@@ -15,6 +16,7 @@ export default async function Home() {
 
       <h2>Server component: {Object.keys(PostType).join(", ")}</h2>
       <ClientComponent />
+      <Graph />
 
       <ul>
         {posts.map((post, index) => (
