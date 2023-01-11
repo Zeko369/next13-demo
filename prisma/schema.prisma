@@ -6,11 +6,17 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./db.sqlite"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PostType {
+  POST
+  PAGE
 }
 
 model Post {
-  id    Int    @id @default(autoincrement())
+  id    Int      @id @default(autoincrement())
   title String
+  type  PostType @default(POST)
 }
