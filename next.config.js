@@ -2,7 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  experimental: { appDir: true, serverComponentsExternalPackages: ["@prisma/client"] },
+  experimental: {
+    appDir: true,
+    typedRoutes: true,
+    serverComponentsExternalPackages: ["@prisma/client"],
+  },
   compiler: { styledComponents: true },
 };
 
