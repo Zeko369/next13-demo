@@ -3404,6 +3404,11 @@ react-dom@18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
+react-insta-stories@^2.5.4:
+  version "2.5.4"
+  resolved "https://registry.yarnpkg.com/react-insta-stories/-/react-insta-stories-2.5.4.tgz#68c8ddd92a13e3df8c18c6dc3f5ddf820d9cae06"
+  integrity sha512-iy47eja5Kh81LyFBL7r9jgVbX8xQwXj7DatGoiRLyhv7qKvcx+EyIPfc5jqUbbhSgqOgNNri9kXV4LIzRfuRFw==
+
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
