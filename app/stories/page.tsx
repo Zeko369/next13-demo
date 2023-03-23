@@ -1,96 +1,22 @@
+/* eslint-disable jsx-a11y/alt-text */
 "use client";
 
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import Stories from "react-insta-stories";
+
 import { mockStories } from "./data";
+import { HighlightsBox, Story, StoryBox, ImageFooBar as Image } from "./_page";
 
-// eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
-const ImageFooBar = (props) => <img {...props} />;
-
-export type StoryType = {
+type StoryType = {
   url: string;
-  duration?: number;
+  duration: number;
 };
-
-type HighlightProps = {
-  key: string | number;
-  srcImage: string;
-  isOpen: boolean;
-  onClick: () => void;
-  stories: StoryType[];
-};
-
-import RawStories from "react-insta-stories";
-
-const StoryBox = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 10;
-  z-index: 2;
-  background-color: black;
-  padding: 10px;
-`;
-
-type StoriesProps = {
-  onClose?: () => void;
-  key: string | number;
-  stories: StoryType[];
-};
-
-const Stories = ({ onClose, key, stories }: StoriesProps) => {
-  return (
-    <StoryBox>
-      <RawStories
-        stories={stories}
-        defaultInterval={3500}
-        width="100%"
-        height="100vh"
-        keyboardNavigation={true}
-      />
-    </StoryBox>
-  );
-};
-
-const Highlight = ({ key, srcImage, stories, isOpen, onClick }: HighlightProps) => {
-  console.log("onClick", onClick, isOpen);
-
-  return (
-    <>
-      <StoryBox1 onClick={onClick}>
-        <ImageFooBar src={srcImage} style={{ width: "32px", maxHeight: "32px" }} />
-      </StoryBox1>
-
-      {isOpen && <Stories key={key} stories={stories} />}
-    </>
-  );
-};
-
-const HighlightsBox = styled.div`
-  display: flex;
-  padding: 12px 16px;
-  overflow-x: scroll;
-  scrollbar-width: none; /* Firefox */
-  &::-webkit-scrollbar {
-    display: none; /* Safari and Chrome */
-  }
-`;
-
-const StoryBox1 = styled.div`
-  display: flex;
-  min-width: 56px;
-  min-height: 56px;
-  justify-content: center;
-  align-items: center;
-  margin-right: 8px;
-  border-radius: 16px;
-  background-color: white;
-  border: 1px solid #1d7cd8;
-  cursor: pointer;
-`;
 
 const Highlights: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [currentStories, setCurrentStories] = useState<StoryType[]>(mockStories[0].stories);
+  const [storyIndex, setStoryIndex] = useState<number>(0);
+  console.log("currentStories", currentStories);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -98,7 +24,6 @@ const Highlights: React.FC = () => {
         setIsOpen(false);
       }
     };
-
     document.addEventListener("keydown", handleKeyDown);
 
     return () => {
@@ -106,21 +31,60 @@ const Highlights: React.FC = () => {
     };
   }, [isOpen]);
 
+  // const handleStoryChange = (stories: StoryType[]) => {
+  //   setCurrentStories(stories)
+  // }
+
+  const allStories = mockStories?.map((story) => story.stories).flat();
+
+  console.log("allStories", allStories);
+
   return (
     <HighlightsBox>
       {mockStories.map((story) => (
-        <Highlight
+        <StoryBox
           key={story.id}
-          srcImage={story.srcImage}
-          isOpen={isOpen}
-          onClick={() => setIsOpen((o) => !o)}
-          stories={story.stories}
-        />
+          onClick={() => {
+            setIsOpen(true);
+            setStoryIndex(story.id);
+          }}
+        >
+          <Image src={story.srcImage} style={{ width: "32px", maxHeight: "32px" }} />
+        </StoryBox>
       ))}
+      {isOpen && (
+        <Story>
+          <Stories
+            stories={currentStories}
+            defaultInterval={3500}
+            width="100%"
+            height="calc(100vh - 20px)"
+            keyboardNavigation
+            loop
+            storyContainerStyles={{
+              borderRadius: 8,
+              backgroundColor: "red",
+              pointerEvents: "none",
+              objectFit: "contain",
+            }}
+            onStoryEnd={(s: number, st: any) => {
+              // handle
+            }}
+            onAllStoriesEnd={(s: number, st: any) => {
+              setIsOpen(false);
+              setCurrentStories(mockStories[storyIndex + 1].stories);
+              // start next story
+              setStoryIndex(storyIndex + 1);
+            }}
+            onStoryStart={(s: number, st: any) => {
+              console.log("onStoryStart", s, st);
+              // handleStoryChange(st)
+            }}
+          />
+        </Story>
+      )}
     </HighlightsBox>
   );
 };
 
-export default function StoriesPage() {
-  return <Highlights />;
-}
+export default Highlights;
