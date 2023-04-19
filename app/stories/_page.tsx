@@ -53,7 +53,7 @@ const Stories = ({ onClose, key, stories }: StoriesProps) => {
 };
 
 const Highlight = ({ key, srcImage, stories, isOpen, onClick }: HighlightProps) => {
-  console.log("onClick", onClick, isOpen);
+  // console.log("onClick", onClick, isOpen);
 
   return (
     <>

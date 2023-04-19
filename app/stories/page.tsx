@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { startTransition, useEffect, useMemo, useState } from "react";
 import Stories from "react-insta-stories";
 
 import { mockStories } from "./data";
@@ -14,9 +14,7 @@ type StoryType = {
 
 const Highlights: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [currentStories, setCurrentStories] = useState<StoryType[]>(mockStories[0].stories);
   const [storyIndex, setStoryIndex] = useState<number>(0);
-  console.log("currentStories", currentStories);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -31,12 +29,11 @@ const Highlights: React.FC = () => {
     };
   }, [isOpen]);
 
-  // const handleStoryChange = (stories: StoryType[]) => {
-  //   setCurrentStories(stories)
-  // }
+  const currentStories = useMemo(() => {
+    return mockStories[storyIndex].stories;
+  }, [storyIndex]);
 
   const allStories = mockStories?.map((story) => story.stories).flat();
-
   console.log("allStories", allStories);
 
   return (
@@ -45,8 +42,9 @@ const Highlights: React.FC = () => {
         <StoryBox
           key={story.id}
           onClick={() => {
+            console.log(story.id);
+            setStoryIndex(mockStories.findIndex((s) => s.id === story.id));
             setIsOpen(true);
-            setStoryIndex(story.id);
           }}
         >
           <Image src={story.srcImage} style={{ width: "32px", maxHeight: "32px" }} />
@@ -59,7 +57,7 @@ const Highlights: React.FC = () => {
             defaultInterval={3500}
             width="100%"
             height="calc(100vh - 20px)"
-            keyboardNavigation
+            // keyboardNavigation
             loop
             storyContainerStyles={{
               borderRadius: 8,
@@ -68,13 +66,14 @@ const Highlights: React.FC = () => {
               objectFit: "contain",
             }}
             onStoryEnd={(s: number, st: any) => {
-              // handle
+              console.log("onStoryEnd", s, st);
             }}
             onAllStoriesEnd={(s: number, st: any) => {
-              setIsOpen(false);
-              setCurrentStories(mockStories[storyIndex + 1].stories);
-              // start next story
-              setStoryIndex(storyIndex + 1);
+              if (storyIndex === mockStories.length - 1) {
+                return setIsOpen(false);
+              }
+
+              setStoryIndex((s) => s + 1);
             }}
             onStoryStart={(s: number, st: any) => {
               console.log("onStoryStart", s, st);

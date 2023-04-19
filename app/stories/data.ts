@@ -4,10 +4,10 @@ export const mockStories = [
     srcImage:
       "https://cdn.zeplin.io/64198059ecf6302191694943/assets/3281CB72-AE36-40D6-BF38-3EF73B010DCE-optimized.png",
     stories: [
-      { url: "https://pbs.twimg.com/media/Fh1xF6VX0AAbGKs?format=jpg&name=large", duration: 5000 },
+      { url: "https://pbs.twimg.com/media/Fh1xF6VX0AAbGKs?format=jpg&name=large", duration: 1000 },
       {
         url: "https://pbs.twimg.com/media/FraYz99WcAAXNQM?format=jpg&name=4096x4096",
-        duration: 5000,
+        duration: 1000,
       },
     ],
   },
@@ -17,8 +17,8 @@ export const mockStories = [
       "https://cdn.zeplin.io/64198059ecf6302191694943/assets/3281CB72-AE36-40D6-BF38-3EF73B010DCE-optimized.png",
     stories: [
       {
-        url: "https://pbs.twimg.com/media/FraYz99WcAAXNQM?format=jpg&name=4096x4096",
-        duration: 5000,
+        url: "https://openseauserdata.com/files/b261626a159edf64a8a92aa7306053b8.png",
+        duration: 1000,
       },
     ],
   },
